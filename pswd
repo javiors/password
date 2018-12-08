@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+require 'digest/md5'
+chars = %W(8 A K f q _ G U l n z d W P r C k D L c x R _ O 6 4 M g 7 J v S w m _ 3 Y B T 2 i 5 Z 9 E V o h N I u X _ y F b H 1 0 a e j _ s p Q t)
+
+key=ARGV[0]
+key_path = "~/.passkey"
+`touch #{key_path} && grep #{key} #{key_path} || echo #{key} >> #{key_path}`
+
+md5 = Digest::MD5.hexdigest key
+
+num = md5.to_i(16)
+result = ""
+
+for i in 1..17
+  index = (num / (i * chars.length)) % chars.length 
+  result += chars[index]
+end
+
+puts result
+
